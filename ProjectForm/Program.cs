@@ -1,151 +1,169 @@
 ﻿using ProjectForm.Class;
 using System;
 
+
+
 namespace ProjectForm
 {
     class Program
     {
-        //create the object 
-        public static string Fname;
-        public static string Lname;
-        public static string FatherName;
-        public static string gregorianMonthName;
-        public static string DateYear;
-        public static string Number_ReadPhone;
-        public static string NumberUser;
-        public static string gender_valid;
-        public static int Age;
-        public static int MonthsYear;
-        public static bool validDate = false;
-        public static string[] SplitDate;
-        public static int Try;
-        public static string TryY;
-        private static string Year;
-
         static void Main(string[] args)
         {
-
             while (true)
             {
+                //ObjectClass ObjectClass = new ObjectClass();
                 //welcom project
-                Console.WriteLine("Welcom!");
+                Console.WriteLine("Wellcom!");
                 //Form 
                 Console.Write("FistName :");
-                Fname = Console.ReadLine();
+                ObjectClass.Fname = Console.ReadLine();
                 Console.Write("LastName :");
-                Lname = Console.ReadLine();
+                ObjectClass.Lname = Console.ReadLine();
 
                 bool validDate = false;
-
                 while (!validDate)
                 {
-                    Console.Write("Date Brthday: ");
-                    DateYear = Console.ReadLine();
-                    SplitDate = DateYear.Split('-');
-                    validDate = Validation.CheckDate(SplitDate);
-
-                    if (!validDate)
+                    try
                     {
-                        Console.WriteLine("Invalid date format. Please try again. example 2023-02-02");
-                    }
+                        Console.Write("Date Brthday: ");
+                        ObjectClass.DateYear = Console.ReadLine();
+                        ObjectClass.SplitDate = ObjectClass.DateYear.Split('-');
+                        validDate = Validation.CheckDate(ObjectClass.SplitDate);
 
+                        if (!validDate)
+                            Console.WriteLine("Invalid date format. Please try again. example 2023-02-02");
+
+                    }
+                    catch (Exception ex)
+                    {
+                        ErrorLog log = new ErrorLog();
+                        log.ErorrLogText(ex.Message, ex.Source);
+                    }
                 }
 
-                Age = DateTime.Now.Year - int.Parse(SplitDate[0]);
-                MonthsYear = int.Parse(SplitDate[1]);
-                Console.WriteLine($"Age : {Age}");
+                ObjectClass.Age = DateTime.Now.Year - int.Parse(ObjectClass.SplitDate[0]);
+                ObjectClass.MonthsYear = int.Parse(ObjectClass.SplitDate[1]);
+                Console.WriteLine($"Age : {ObjectClass.Age}");
 
                 //Get Month Persian And Gregorian
-
                 MyCallender Callender = new MyCallender();
-                gregorianMonthName = Callender.GetGregorianMonthName(MonthsYear);
+                ObjectClass.gregorianMonthName = Callender.GetGregorianMonthName(ObjectClass.MonthsYear);
                 //string persianMonthName = Callender.GetPersianMonthName(MonthsYear);
-                Console.WriteLine($"Months : {gregorianMonthName}");
+                Console.WriteLine($"Months : {ObjectClass.gregorianMonthName}");
 
                 bool validgender = false;
-
                 while (!validgender)
                 {
-                    Console.Write("Gender(Male,Famle,Other) : ");
-                    gender_valid = Console.ReadLine();
-                    validgender = Validation.validgender(gender_valid);
-
-                    if (!validgender)
+                    try
                     {
-                        Console.WriteLine("Invalid. Please try again. (male,famle,other)");
+                        Console.Write("Gender(Male,Famle,Other) : ");
+                        ObjectClass.gender_valid = Console.ReadLine();
+                        validgender = Validation.validgender(ObjectClass.gender_valid);
+
+                        if (!validgender)
+                        {
+                            Console.WriteLine("Invalid. Please try again. (male,famle,other)");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        ErrorLog log = new ErrorLog();
+                        log.ErorrLogText(ex.Message, ex.Source);
                     }
 
                 }
-                Console.WriteLine($"Gender : {gender_valid}");
+                Console.WriteLine($"Gender : {ObjectClass.gender_valid}");
 
-                bool MiliteryService = Validation.mustGoToMiliteryService(gender_valid, Age);
+                //check the gender and age with if gender men and age 18 in 50 ok
+                bool MiliteryService = Validation.mustGoToMiliteryService(ObjectClass.gender_valid, ObjectClass.Age);
+                string MFO = MiliteryService ? "OK" : "NO";
+                //Console.WriteLine(MFO);
 
                 Console.Write("FatherName :");
-
-                FatherName = Console.ReadLine();
+                ObjectClass.FatherName = Console.ReadLine();
 
                 bool validNumber = false;
-
                 while (!validNumber)
                 {
-                    Console.Write("Phone Number : ");
-                    Number_ReadPhone = Console.ReadLine();
-                    NumberUser = Validation.Checkphone(Number_ReadPhone);
-                    if (NumberUser == "false")
+                    try
                     {
-                        validNumber = false;
-                    }
-                    validNumber = Validation.validNumber(NumberUser);
+                        Console.Write("Phone Number : ");
+                        ObjectClass.Number_ReadPhone = Console.ReadLine();
+                        ObjectClass.NumberUser = Validation.Checkphone(ObjectClass.Number_ReadPhone);
+                        if (ObjectClass.NumberUser == "false")
+                        {
+                            validNumber = false;
+                        }
+                        validNumber = Validation.validNumber(ObjectClass.NumberUser);
 
-                    if (!validNumber)
+                        if (!validNumber)
+                        {
+                            Console.WriteLine("Invalid number format. Please try again. example 09120000000");
+                        }
+                    }
+                    catch (Exception ex)
                     {
-                        Console.WriteLine("Invalid number format. Please try again. example 09120000000");
+                        ErrorLog log = new ErrorLog();
+                        log.ErorrLogText(ex.Message, ex.Source);
                     }
 
                 }
-                Console.WriteLine($"Phone Number : {NumberUser}");
+                Console.WriteLine($"Phone Number : {ObjectClass.NumberUser}");
 
-                string Form = $"FistName : {Fname} ,LastName : {Lname} ,Year : {Year} ,Age: {Age} ,Gregorian Month: {gregorianMonthName} ,FatherName: {FatherName} , Phone Number : {NumberUser} , Gender: { gender_valid}";
+                string Form = $"FistName : {ObjectClass.Fname} ,LastName : {ObjectClass.Lname} ,Year : {ObjectClass.Year} ,Age: {ObjectClass.Age} ,Gregorian Month: {ObjectClass.gregorianMonthName} ,FatherName: {ObjectClass.FatherName} , Phone Number : {ObjectClass.NumberUser} , Gender: {ObjectClass.gender_valid}";
                 IFShowLog(Form);
 
                 bool validTryAgain = false;
-
                 while (!validTryAgain)
                 {
-                    Console.WriteLine("TryAgain?(1.Yes,2.No)");
-                    TryY = Console.ReadLine();
-                    validTryAgain = Validation.CheckTryAgain(TryY);
-
-                    if (!validTryAgain)
+                    try
                     {
-                        Console.WriteLine("Invalid date format. Please try again.");
-                    }
+                        Console.WriteLine("TryAgain?(1.Yes,2.No)");
+                        ObjectClass.TryY = Console.ReadLine();
+                        validTryAgain = Validation.CheckTryAgain(ObjectClass.TryY);
 
-                }
-                Try = int.Parse(TryY);
-                if (Try == 1)
-                {
-                }
-                else
-                if (Try == 2)
-                {
-
-                    bool validCtext = false;
-
-                    while (!validCtext)
-                    {
-                        Console.WriteLine("Do you want a text file output from the form?(1.Yes,2.No)");
-                        TryY = Console.ReadLine();
-                        validCtext = Validation.CheckTryAgain(TryY);
-
-                        if (!validCtext)
+                        if (!validTryAgain)
                         {
                             Console.WriteLine("Invalid date format. Please try again.");
                         }
+                    }
+                    catch (Exception ex)
+                    {
+                        ErrorLog log = new ErrorLog();
+                        log.ErorrLogText(ex.Message, ex.Source);
+                    }
+
+                }
+                ObjectClass.Try = int.Parse(ObjectClass.TryY);
+                if (ObjectClass.Try == 1)
+                {
+                }
+                else
+                if (ObjectClass.Try == 2)
+                {
+                    bool validCtext = false;
+                    while (!validCtext)
+                    {
+                        try
+                        {
+                            Console.WriteLine("Do you want a text file output from the form?(1.Yes,2.No)");
+                            ObjectClass.TryY = Console.ReadLine();
+                            validCtext = Validation.CheckTryAgain(ObjectClass.TryY);
+
+                            if (!validCtext)
+                            {
+                                Console.WriteLine("Invalid date format. Please try again.");
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            ErrorLog log = new ErrorLog();
+                            log.ErorrLogText(ex.Message, ex.Source);
+                        }
 
                     }
-                    Try = int.Parse(TryY);
-                    if (Try == 1)
+                    ObjectClass.Try = int.Parse(ObjectClass.TryY);
+                    if (ObjectClass.Try == 1)
                     {
                         TextValid Text = new TextValid();
                         Text.GetForm(Form);
@@ -166,18 +184,25 @@ namespace ProjectForm
             bool validCtext = false;
             while (!validCtext)
             {
-                Console.WriteLine("Show (1.Detail Or 2.Summery)");
-                TryY = Console.ReadLine();
-                validCtext = Validation.CheckTryAgain(TryY);
-
-                if (!validCtext)
+                try
                 {
-                    Console.WriteLine("Invalid date format. Please try again.");
-                }
+                    Console.WriteLine("Show (1.Detail Or 2.Summery)");
+                    ObjectClass.TryY = Console.ReadLine();
+                    validCtext = Validation.CheckTryAgain(ObjectClass.TryY);
 
+                    if (!validCtext)
+                    {
+                        Console.WriteLine("Invalid date format. Please try again.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ErrorLog log = new ErrorLog();
+                    log.ErorrLogText(ex.Message, ex.Source);
+                }
             }
             //result with 
-            int result = int.Parse(TryY);
+            int result = int.Parse(ObjectClass.TryY);
             if (result == 1)
             {
                 Console.WriteLine(resultForm);
