@@ -29,8 +29,7 @@ namespace ProjectForm
                         ObjectClass.DateYear = Console.ReadLine();
                         ObjectClass.SplitDate = ObjectClass.DateYear.Split('-');
                         validDate = Validation.CheckDate(ObjectClass.SplitDate);
-                        if (!validDate)
-                            Console.WriteLine("Invalid date format. Please try again. example 2023-02-02");
+                        if (!validDate) Console.WriteLine("Invalid date format. Please try again. example 2023-02-02");
 
                     }
                     catch (Exception ex)
@@ -58,8 +57,7 @@ namespace ProjectForm
                         Console.Write("Gender(Male,Famle,Other) : ");
                         ObjectClass.gender_valid = Console.ReadLine();
                         validgender = Validation.validgender(ObjectClass.gender_valid);
-                        if (!validgender)
-                            Console.WriteLine("Invalid. Please try again. (male,famle,other)");
+                        if (!validgender) Console.WriteLine("Invalid. Please try again. (male,famle,other)");
                     }
                     catch (Exception ex)
                     {
